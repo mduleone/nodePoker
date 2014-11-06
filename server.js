@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 
 app.get("/poker", function (req, res) {
     if (req.query.hand1 && req.query.hand2) {
-        poker.determineWinner(req.query.hand1, req.query.hand2, function (err, winningHand, value, hand) {
+        poker.determineWinner(null, req.query.hand1, req.query.hand2, function (err, winningHand, value, hand) {
             if (err) throw err;
             res.json({
                 winningHand: winningHand,
@@ -34,7 +34,7 @@ app.get("/holdem", function (req, res) {
         req.query.hand3 && req.query.hand4 && req.query.hand5 &&
         req.query.hand6 && req.query.hand7 && req.query.hand8 &&
         req.query.hand9 && req.query.hand10) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -58,7 +58,7 @@ app.get("/holdem", function (req, res) {
         req.query.hand3 && req.query.hand4 && req.query.hand5 &&
         req.query.hand6 && req.query.hand7 && req.query.hand8 &&
         req.query.hand9) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -80,7 +80,7 @@ app.get("/holdem", function (req, res) {
     } else if (req.query.board && req.query.hand1 && req.query.hand2 &&
         req.query.hand3 && req.query.hand4 && req.query.hand5 &&
         req.query.hand6 && req.query.hand7 && req.query.hand8) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -101,7 +101,7 @@ app.get("/holdem", function (req, res) {
     } else if (req.query.board && req.query.hand1 && req.query.hand2 &&
         req.query.hand3 && req.query.hand4 && req.query.hand5 &&
         req.query.hand6 && req.query.hand7) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -121,7 +121,7 @@ app.get("/holdem", function (req, res) {
     } else if (req.query.board && req.query.hand1 && req.query.hand2 &&
         req.query.hand3 && req.query.hand4 && req.query.hand5 &&
         req.query.hand6) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -139,7 +139,7 @@ app.get("/holdem", function (req, res) {
         });
     } else if (req.query.board && req.query.hand1 && req.query.hand2 &&
         req.query.hand3 && req.query.hand4 && req.query.hand5) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -156,7 +156,7 @@ app.get("/holdem", function (req, res) {
         });
     } else if (req.query.board && req.query.hand1 && req.query.hand2 &&
         req.query.hand3 && req.query.hand4) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -172,7 +172,7 @@ app.get("/holdem", function (req, res) {
         });
     } else if (req.query.board && req.query.hand1 && req.query.hand2 &&
         req.query.hand3) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,
@@ -186,7 +186,7 @@ app.get("/holdem", function (req, res) {
             });
         });
     } else if (req.query.board && req.query.hand1 && req.query.hand2) {
-        holdem.pickWinner(
+        holdem.pickWinner(null,
             req.query.board,
             req.query.hand1,
             req.query.hand2,

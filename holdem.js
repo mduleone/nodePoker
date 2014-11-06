@@ -3,13 +3,16 @@
 var poker = require("./poker");
 var combinatorics = require("js-combinatorics").Combinatorics;
 
-function pickWinner (board, hand1, hand2, hand3, hand4, hand5, hand6, hand7, hand8, hand9, hand10, callback) {
+function pickWinner (err, board, hand1, hand2, hand3, hand4, hand5, hand6, hand7, hand8, hand9, hand10, callback) {
     var args = [];
     for (var i = 0; i < arguments.length; i++) {
         args.push(arguments[i]);
     }
 
     callback = args.pop();
+    var error = args.shift();
+    if (error) throw error;
+
     if (args.length > 0) board = args.shift(); else board = null;
     if (args.length > 0) hand1 = args.shift(); else hand1 = null;
     if (args.length > 0) hand2 = args.shift(); else hand2 = null;

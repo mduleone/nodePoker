@@ -10,7 +10,9 @@ var TWOPAIR = 2;
 var PAIR = 1;
 var HIGHCARD = 0;
 
-function determineWinner (player1, player2, callback) {
+function determineWinner (error, player1, player2, callback) {
+    if (error) throw error;
+    
     if (player1.length != 10 ||
         !validateCards(player1)) {
         callback("Invalid Hand for Player 1");
