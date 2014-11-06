@@ -1,0 +1,1 @@
+This is s NodeJS Poker Hand Winner solver.
