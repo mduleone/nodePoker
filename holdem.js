@@ -129,12 +129,17 @@ function pickWinner (board, hand1, hand2, hand3, hand4, hand5, hand6, hand7, han
 
     // console.log("-------------------------------------");
 
+    var hands = [];
+    for (var i = 0; i < pockets.length; i++) {
+        hands.push(determineHand(board, pockets[i]));
+    }
+
     var highHandNum = 0;
-    var highHand = determineHand(board, pockets[0]);
-    var highHandVal = poker.evalHand(highHand);
+    var highHand = hands[0];
+    var highHandVal = poker.evalHand(hands[0]);
     var highPockets = pockets[0];
     for (var i = 1; i < pockets.length; i++) {
-        var ret = evalHand(board, pockets[highHandNum], pockets[i]);
+        var ret = poker.compareHands(hands[highHandNum], hands[i]);
         if (ret.err) {
             console.log(i);
             console.log(ret.err);
