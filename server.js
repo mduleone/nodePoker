@@ -22,7 +22,7 @@ app.get("/poker", function (req, res) {
             if (err) throw err;
             res.json({
                 winningHand: winningHand,
-                value: hands[value],
+                value: HANDS[value],
                 hand: hand,
             });
         });
