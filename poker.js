@@ -217,7 +217,7 @@ function comparePair (hand1, hand2) {
     }
 }
 
-function compairTwoPair (hand1, hand2) {
+function compareTwoPair (hand1, hand2) {
     var hipair1 = 0;
     var lopair1 = 0;
     var high1 = 0;
