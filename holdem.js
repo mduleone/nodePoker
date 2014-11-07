@@ -1,7 +1,6 @@
 "use strict";
 
 var poker = require("./poker");
-var combinatorics = require("js-combinatorics").Combinatorics;
 
 function pickWinner (err, board, hands, callback) {
 
@@ -40,7 +39,8 @@ function pickWinner (err, board, hands, callback) {
 
     var allHands = [];
     for (var i = 0; i < pockets.length; i++) {
-        allHands.push(determineHand(board, pockets[i][1]));
+        var allCards = board.concat(pockets[i][1]);
+        allHands.push(poker.determineHighHand(allCards));
     }
 
     var highHandNum = 0;
@@ -66,34 +66,6 @@ function pickWinner (err, board, hands, callback) {
     callback(null, pockets[highHandNum][0], highHandVal, highHand);
 }
 
-function determineHand (board, pockets) {
-    var cards = pockets.concat(board);
-    var cmb = combinatorics.combination(cards, 5);
-    var possibleHands = [];
-    var hand = null;
-    while (hand = cmb.next()) {
-        hand.sort(function (a, b) {
-            if (a.high < b.high) {
-                return -1;
-            } else if (a.high > b.high) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-        possibleHands.push(hand);
-    }
-    var highHand = possibleHands.pop();
-    var compareHand = null;
-    var i = 0;
-    while (compareHand = possibleHands.pop()) {
-        highHand = poker.compareHands(highHand, compareHand).hand;
-    }
-
-    return highHand;
-}
-
 module.exports = {
     pickWinner: pickWinner,
-    determineHand: determineHand,
 }

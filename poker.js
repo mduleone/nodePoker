@@ -1,5 +1,7 @@
 "use strict";
 
+var combinatorics = require("js-combinatorics").Combinatorics;
+
 var STRAIGHTFLUSH = 8;
 var QUADS = 7;
 var FULLHOUSE = 6;
@@ -40,6 +42,269 @@ function determineWinner (error, player1, player2, callback) {
 
     var ret = compareHands(hand1, hand2);
     callback(ret.err, ret.winner, ret.handVal, ret.hand);
+}
+
+function determineLowEightOmahaHand (board, pockets) {
+    var cmbBoard = combinatorics.combination(board, 3);
+    var cmbPockets = combinatorics.combination(pockets, 2);
+    var possibleBoards = [];
+    var possiblePockets = [];
+    var hand = null;
+    while (hand = cmbBoards.next()) {
+        hand.sort(function (a, b) {
+            if (a.low < b.low) {
+                return -1;
+            } else if (a.low > b.low) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        possibleBoards.push(hand);
+    }
+    while (hand = cmbPockets.next()) {
+        hand.sort(function (a, b) {
+            if (a.low < b.low) {
+                return -1;
+            } else if (a.low > b.low) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        possiblePockets.push(hand);
+    }
+
+    var possibleHands = [];
+    for (var i = 0; i < possiblePockets.length; i++) {
+        for (var j = 0; j < possibleBoards.length; j++) {
+            hand = possiblePockets[i].concat(possibleBoards[j]);
+            hand.sort(function (a, b) {
+                if (a.low < b.low) {
+                    return -1;
+                } else if (a.low > b.low) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+            possibleHands.push(hand);
+        }
+    }
+
+    var lowHand = possibleHands.pop();
+    var compareHand = null;
+    while (compareHand = possibleHands.pop()) {
+        lowHand = compareLowEightHands(lowHand, compareHand).hand;
+    }
+
+    return lowHand;
+}
+
+function determineLowEightHand (cards) {
+    var cmb = combinatorics.combination(cards, 5);
+    var possibleHands = [];
+    var hand = null;
+    while (hand = cmb.next()) {
+        hand.sort(function (a, b) {
+            if (a.low < b.low) {
+                return -1;
+            } else if (a.low > b.low) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        possibleHands.push(hand);
+    }
+    var lowHand = possibleHands.pop();
+    var compareHand = null;
+    while (compareHand = possibleHands.pop()) {
+        lowHand = compareLowEightHands(lowHand, compareHand).hand;
+    }
+
+    return lowHand;
+}
+
+function determineLowRazzHand (cards) {
+    var cmb = combinatorics.combination(cards, 5);
+    var possibleHands = [];
+    var hand = null;
+    while (hand = cmb.next()) {
+        hand.sort(function (a, b) {
+            if (a.low < b.low) {
+                return -1;
+            } else if (a.low > b.low) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        possibleHands.push(hand);
+    }
+    var lowHand = possibleHands.pop();
+    var compareHand = null;
+    while (compareHand = possibleHands.pop()) {
+        lowHand = compareLowRazzHands(lowHand, compareHand).hand;
+    }
+
+    return lowHand;
+}
+
+function determineHighHand (cards) {
+    var cmb = combinatorics.combination(cards, 5);
+    var possibleHands = [];
+    var hand = null;
+    while (hand = cmb.next()) {
+        hand.sort(function (a, b) {
+            if (a.high < b.high) {
+                return -1;
+            } else if (a.high > b.high) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        possibleHands.push(hand);
+    }
+    var highHand = possibleHands.pop();
+    var compareHand = null;
+    while (compareHand = possibleHands.pop()) {
+        highHand = compareHands(highHand, compareHand).hand;
+    }
+
+    return highHand;
+}
+
+function compareLowRazzHands (hand1, hand2) {
+    // Two Valid Hands.
+    var hand1Val = evalHand(hand1);
+    if (hand1Val == FLUSH || hand1Val == STRAIGHT) {
+        hand1Val = HIGHCARD;
+    }
+    var hand2Val = evalHand(hand2);
+    if (hand2Val == FLUSH || hand2Val == STRAIGHT) {
+        hand2Val = HIGHCARD;
+    }
+    
+    if (hand1Val > hand2Val) {
+        return {err: null,
+                winner: 2,
+                handVal: hand2Val,
+                hand: hand2
+            };
+    } else if (hand1Val < hand2Val) {
+        return {
+            err: null,
+            winner:  1,
+            handVal: hand1Val,
+            hand: hand1
+        };
+    }
+
+    // Two hands are identically valued, now must compare hands.
+    var winningHand = null;
+    switch (hand1Val) {
+        case HIGHCARD:
+        case STRAIGHT:
+        case FLUSH:
+            winningHand = compareHighCard(hand1, hand2);
+            break;
+        case PAIR:
+            winningHand = comparePair(hand1, hand2);
+            break;
+        case TWOPAIR:
+            winningHand = compareTwoPair(hand1, hand2);
+            break;
+        case SET:
+            winningHand = compareSet(hand1, hand2);
+            break;
+        case FULLHOUSE:
+            winningHand = compareFullHouse(hand1, hand2);
+            break;
+        case QUADS:
+            winningHand = compareQuads(hand1, hand2);
+            break;
+        case STRAIGHTFLUSH:
+            winningHand = compareStraight(hand1, hand2);
+            break;
+    }
+    if (winningHand == 0) {
+        return {
+            err: null,
+            winner: 0,
+            handVal: hand1Val,
+            hand: hand1
+        };
+    } else if (winningHand == 2) {
+        return {
+            err: null,
+            winner: 1,
+            handVal: hand1Val,
+            hand: hand1
+        };
+    } else {
+        return {
+            err: null,
+            winner: 2,
+            handVal: hand2Val,
+            hand: hand2
+        };
+    }
+}
+
+function compareLowEightHands (hand1, hand2) {
+    // Two Valid Hands.
+    var hand1Val = evalLowEightHand(hand1);
+    var hand2Val = evalLowEightHand(hand2);
+
+    if (!hand1Val && !hand2Val) {
+        return {err: null,
+                winner: null,
+                handVal: null,
+                hand: null
+            };
+    }
+
+    if (hand1Val && !hand2Val) {
+        return {err: null,
+                winner: 1,
+                handVal: hand1Val,
+                hand: hand1
+            };
+    }
+
+    if (!hand1Val && hand2Val) {
+        return {err: null,
+                winner: 2,
+                handVal: hand2Val,
+                hand: hand2
+            };
+    }
+
+    var winningHand = compareHighCard(hand1, hand2);
+    if (winningHand == 0) {
+        return {
+            err: null,
+            winner: 0,
+            handVal: hand1Val,
+            hand: hand1
+        };
+    } else if (winningHand == 2) {
+        return {
+            err: null,
+            winner: 1,
+            handVal: hand1Val,
+            hand: hand1
+        };
+    } else {
+        return {
+            err: null,
+            winner: 2,
+            handVal: hand2Val,
+            hand: hand2
+        };
+    }
 }
 
 function compareHands (hand1, hand2) {
@@ -115,7 +380,6 @@ function compareHands (hand1, hand2) {
             hand: hand2
         };
     }
-
 }
 
 function compareHighCard (hand1, hand2) {
@@ -427,6 +691,31 @@ function compareQuads (hand1, hand2) {
     }
 }
 
+
+
+function evalLowEightHand (hand) {
+    var handVal = evalHand(hand);
+    if (handVal == STRAIGHT ||
+        handVal == FLUSH)
+        handVal = HIGHCARD;
+
+    if (handVal > HIGHCARD) {
+        return false;
+    }
+
+    var lows = [];
+    for (var i = 0; i < 5; i++) {
+        lows.push(hand[i].low);
+    }
+    var high = Math.max.apply(null, lows)
+
+    if (high > 8) {
+        return false;
+    }
+
+    return high;
+}
+
 function evalHand (hand) {
     if (evalStraightFlush(hand)) {
         return STRAIGHTFLUSH;
@@ -647,8 +936,14 @@ function validateCard (card) {
 
 module.exports = {
     determineWinner: determineWinner,
+    determineHighHand: determineHighHand,
+    determineLowRazzHand: determineLowRazzHand,
+    determineLowEightHand: determineLowEightHand,
     compareHands: compareHands,
+    compareLowRazzHands: compareLowRazzHands,
+    compareLowEightHands: compareLowEightHands,
     evalHand: evalHand,
+    evalLowEightHand: evalLowEightHand,
     validateCards: validateCards,
     validateCard: validateCard,
     convertCards: convertCards,
