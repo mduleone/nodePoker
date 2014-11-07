@@ -485,14 +485,6 @@ function evalFlush (hand) {
 }
 
 function evalStraight (hand) {
-    var highs = [];
-    var lows = [];
-
-    for (var i = 0; i < 5; i++) {
-        highs.push(hand[i].high);
-        lows.push(hand[i].low);
-    }
-
     var highDiff = getHighDiff(hand);
     var lowDiff = getLowDiff(hand);
 
