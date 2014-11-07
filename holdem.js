@@ -4,26 +4,6 @@ var poker = require("./poker");
 var combinatorics = require("js-combinatorics").Combinatorics;
 
 function pickWinner (err, board, hands, callback) {
-//     var args = [];
-//     for (var i = 0; i < arguments.length; i++) {
-//         args.push(arguments[i]);
-//     }
-
-//     callback = args.pop();
-//     var error = args.shift();
-//     if (error) throw error;
-
-//     if (args.length > 0) board = args.shift(); else board = null;
-//     if (args.length > 0) hand1 = args.shift(); else hand1 = null;
-//     if (args.length > 0) hand2 = args.shift(); else hand2 = null;
-//     if (args.length > 0) hand3 = args.shift(); else hand3 = null;
-//     if (args.length > 0) hand4 = args.shift(); else hand4 = null;
-//     if (args.length > 0) hand5 = args.shift(); else hand5 = null;
-//     if (args.length > 0) hand6 = args.shift(); else hand6 = null;
-//     if (args.length > 0) hand7 = args.shift(); else hand7 = null;
-//     if (args.length > 0) hand8 = args.shift(); else hand8 = null;
-//     if (args.length > 0) hand9 = args.shift(); else hand9 = null;
-//     if (args.length > 0) hand10 = args.shift(); else hand10 = null;
 
     if (!poker.validateCards(board)) {
         callback("Invalid Card in Board");
@@ -35,102 +15,19 @@ function pickWinner (err, board, hands, callback) {
             return;
         }
     }
-    // if (!poker.validateCards(hand1)) {
-    //     callback("Invalid Card in Hand 1");
-    //     return;
-    // }
-    // if (!poker.validateCards(hand2)) {
-    //     callback("Invalid Card in Hand 2");
-    //     return;
-    // }
-    // if (hand3 && !poker.validateCards(hand3)) {
-    //     callback("Invalid Card in Hand 3");
-    //     return;
-    // }
-    // if (hand4 && !poker.validateCards(hand4)) {
-    //     callback("Invalid Card in Hand 4");
-    //     return;
-    // }
-    // if (hand5 && !poker.validateCards(hand5)) {
-    //     callback("Invalid Card in Hand 5");
-    //     return;
-    // }
-    // if (hand6 && !poker.validateCards(hand6)) {
-    //     callback("Invalid Card in Hand 6");
-    //     return;
-    // }
-    // if (hand7 && !poker.validateCards(hand7)) {
-    //     callback("Invalid Card in Hand 7");
-    //     return;
-    // }
-    // if (hand8 && !poker.validateCards(hand8)) {
-    //     callback("Invalid Card in Hand 8");
-    //     return;
-    // }
-    // if (hand9 && !poker.validateCards(hand9)) {
-    //     callback("Invalid Card in Hand 9");
-    //     return;
-    // }
-    // if (hand10 && !poker.validateCards(hand10)) {
-    //     callback("Invalid Card in Hand 10");
-    //     return;
-    // }
 
     // valid Cards everywhere.
     var pockets = [];
-    // pockets.push(poker.convertCards(hand1));
-    // pockets.push(poker.convertCards(hand2));
-    // if (hand3)
-    //     pockets.push(poker.convertCards(hand3));
-    // if (hand4)
-    //     pockets.push(poker.convertCards(hand4));
-    // if (hand5)
-    //     pockets.push(poker.convertCards(hand5));
-    // if (hand6)
-    //     pockets.push(poker.convertCards(hand6));
-    // if (hand7)
-    //     pockets.push(poker.convertCards(hand7));
-    // if (hand8)
-    //     pockets.push(poker.convertCards(hand8));
-    // if (hand9)
-    //     pockets.push(poker.convertCards(hand9));
-    // if (hand10)
-    //     pockets.push(poker.convertCards(hand10));
     for (var hand in hands) {
         pockets.push([hand, poker.convertCards(hands[hand])]);
     }
 
     board = poker.convertCards(board);
-    console.log(board);
 
     var cards = board;
-    // cards = cards.concat(pockets[0], pockets[1]);
-    // if (hand3)
-    //     cards = cards.concat(pockets[2]);
-    // if (hand4)
-    //     cards = cards.concat(pockets[3]);
-    // if (hand5)
-    //     cards = cards.concat(pockets[4]);
-    // if (hand6)
-    //     cards = cards.concat(pockets[5]);
-    // if (hand7)
-    //     cards = cards.concat(pockets[6]);
-    // if (hand8)
-    //     cards = cards.concat(pockets[7]);
-    // if (hand9)
-    //     cards = cards.concat(pockets[8]);
-    // if (hand10)
-    //     cards = cards.concat(pockets[9]);
     for (var i = 0; i < pockets.length; i++) {
-        // Array.prototype.push.apply(cards, pockets[i][1]);
         cards = cards.concat(pockets[i][1]);
     }
-    console.log("---------------------------");
-    console.log("cards");
-    console.log(cards);
-    console.log("---------------------------");
-    console.log("board");
-    console.log(board);
 
     for (var i = 0; i < cards.length; i++) {
         for (var j = i + 1; j < cards.length; j++) {
@@ -140,14 +37,6 @@ function pickWinner (err, board, hands, callback) {
             }
         }
     }
-
-    // console.log("-------------------------------------");
-
-
-    // From this point on, hands needs to be addressed
-    // From this point on, hands needs to be addressed
-    // From this point on, hands needs to be addressed
-    // From this point on, hands needs to be addressed
 
     var allHands = [];
     for (var i = 0; i < pockets.length; i++) {
@@ -177,23 +66,8 @@ function pickWinner (err, board, hands, callback) {
     callback(null, pockets[highHandNum][0], highHandVal, highHand);
 }
 
-function evalHand (board, player1, player2) {
-    // No duplicates
-    var hand1 = determineHand(board, player1);
-    var hand2 = determineHand(board, player2);
-
-    var ret = poker.compareHands(hand1, hand2);
-
-    return ret;
-}
-
 function determineHand (board, pockets) {
-    // console.log("board");
-    // console.log(board);
-    // console.log("pockets");
-    // console.log(pockets);
     var cards = pockets.concat(board);
-    // console.log(cards);
     var cmb = combinatorics.combination(cards, 5);
     var possibleHands = [];
     var hand = null;
@@ -221,6 +95,5 @@ function determineHand (board, pockets) {
 
 module.exports = {
     pickWinner: pickWinner,
-    evalHand: evalHand,
     determineHand: determineHand,
 }
