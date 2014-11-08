@@ -63,6 +63,9 @@ function pickWinner (err, board, hands, callback) {
             highPockets = pockets[i][1];
         }
     }
+    // for (var i = 0; i < 5; i++) {
+    //     console.log(highHand[i].toString());
+    // }
     callback(null, pockets[highHandNum][0], highHandVal, highHand);
 }
 

@@ -909,7 +909,10 @@ function convertCard (cardStr) {
             };
             break;
     }
-    card.suit = suit.toUpperCase();
+    card.suit = suit.toLowerCase();
+    card.toString = function() {
+        return card.name.slice(0,1) + card.suit;
+    }
     return card;
 }
 
