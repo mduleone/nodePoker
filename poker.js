@@ -1,6 +1,6 @@
 "use strict";
 
-var combinatorics = require("js-combinatorics").Combinatorics;
+var combinatorics = require("js-combinatorics");
 
 var STRAIGHTFLUSH = 8;
 var QUADS = 7;
