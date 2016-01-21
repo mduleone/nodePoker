@@ -1,22 +1,34 @@
 "use strict";
 
 var express = require("express");
+var cors = require("cors");
 var poker = require("./poker");
 var holdem = require("./holdem");
 var port = 8000;
 
-var HANDS = ["High Card", "Pair", "Two Pair", "Set", "Straight", "Flush", "Full House", "Quads", "Straight Flush"]
+var HANDS = [
+    "High Card",
+    "Pair",
+    "Two Pair",
+    "Set",
+    "Straight",
+    "Flush",
+    "Full House",
+    "Quads",
+    "Straight Flush",
+];
 
 var app = express();
+    app.set('port', port || 8000);
 
 // Allow Cross Origin
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
-app.get("/poker", function (req, res) {
+app.get("/poker", cors(), function (req, res) {
     if (req.query.hand1 && req.query.hand2) {
         poker.determineWinner(null, req.query.hand1, req.query.hand2, function (err, winningHand, value, hand) {
             if (err) throw err;
@@ -29,10 +41,9 @@ app.get("/poker", function (req, res) {
     }
 });
 
-app.get("/holdem", function (req, res) {
+app.get("/holdem", cors(), function (req, res) {
     if (!req.query.board) {
-        res.end("Please send a Board!");
-        return;
+        return res.end("Please send a Board!");
     }
 
     var hands = {};
@@ -67,9 +78,10 @@ app.get("/holdem", function (req, res) {
             });
         });
     } else {
-        res.send("Please provide at least two hands!");
+        return res.end("Please provide at least two hands!");
     }
 });
 
 
-app.listen(port);
+app.listen(app.get('port'));
+console.log('Poker server listening on port', app.get('port'));

@@ -1,0 +1,26 @@
+{
+  "name": "poker",
+  "version": "1.0.0",
+  "description": "This is s NodeJS Poker Hand Winner solver.",
+  "main": "poker.js",
+  "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "js-combinatorics": "^0.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mduleone/nodePoker.git"
+  },
+  "author": "Matt DuLeone <matt@duleone.com> (http://matt.duleone.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mduleone/nodePoker/issues"
+  },
+  "homepage": "https://github.com/mduleone/nodePoker#readme"
+}

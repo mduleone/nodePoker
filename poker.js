@@ -155,6 +155,7 @@ function determineHighHand (cards) {
     var cmb = combinatorics.combination(cards, 5);
     var possibleHands = [];
     var hand = null;
+    
     while (hand = cmb.next()) {
         hand.sort(function (a, b) {
             if (a.high < b.high) {
@@ -169,6 +170,7 @@ function determineHighHand (cards) {
     }
     var highHand = possibleHands.pop();
     var compareHand = null;
+
     while (compareHand = possibleHands.pop()) {
         highHand = compareHands(highHand, compareHand).hand;
     }
@@ -188,11 +190,12 @@ function compareLowRazzHands (hand1, hand2) {
     }
     
     if (hand1Val > hand2Val) {
-        return {err: null,
-                winner: 2,
-                handVal: hand2Val,
-                hand: hand2
-            };
+        return {
+            err: null,
+            winner: 2,
+            handVal: hand2Val,
+            hand: hand2
+        };
     } else if (hand1Val < hand2Val) {
         return {
             err: null,
@@ -259,19 +262,21 @@ function compareLowEightHands (hand1, hand2) {
     var hand2Val = evalLowEightHand(hand2);
 
     if (!hand1Val && !hand2Val) {
-        return {err: null,
-                winner: null,
-                handVal: null,
-                hand: null
-            };
+        return {
+            err: null,
+            winner: null,
+            handVal: null,
+            hand: null
+        };
     }
 
     if (hand1Val && !hand2Val) {
-        return {err: null,
-                winner: 1,
-                handVal: hand1Val,
-                hand: hand1
-            };
+        return {
+            err: null,
+            winner: 1,
+            handVal: hand1Val,
+            hand: hand1
+        };
     }
 
     if (!hand1Val && hand2Val) {
@@ -313,11 +318,12 @@ function compareHands (hand1, hand2) {
     var hand2Val = evalHand(hand2);
     
     if (hand1Val > hand2Val) {
-        return {err: null,
-                winner: 1,
-                handVal: hand1Val,
-                hand: hand1
-            };
+        return {
+            err: null,
+            winner: 1,
+            handVal: hand1Val,
+            hand: hand1
+        };
     } else if (hand1Val < hand2Val) {
         return {
             err: null,
