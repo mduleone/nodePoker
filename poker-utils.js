@@ -24,7 +24,16 @@ function drawCards(numCards, deck) {
     }
 }
 
+function existInHand(card, hand) {
+    if (hand.indexOf(card) > -1) {
+        return true;
+    }
+
+    return false;
+}
+
 module.exports = {
     newDeck: newDeck,
     drawCards: drawCards,
+    existInHand: existInHand,
 }

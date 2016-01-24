@@ -13,19 +13,34 @@ function newGame() {
 }
 
 function discard(discard, hand, deck) {
-    var thisCard;
+    for (var card in discard) {
+         if (!utils.existInHand(discard[card], hand)) {
+            return {
+                error: {
+                    message: 'Card \'' + discard[card] + '\' is not in the hand.',
+                    card: discard[card],
+                },
+                game: {
+                    deck: deck,
+                    hand: hand,
+                },
+            };
+        }
+    }
 
     for (var card in discard) {
-         thisCard = discard[card];
-         hand.splice(hand.indexOf(thisCard), 1);
+         hand.splice(hand.indexOf(discard[card]), 1);
     }
 
     var newDraw = utils.drawCards(discard.length, deck);
 
     return {
-        deck: newDraw.deck,
-        hand: hand.concat(newDraw.draw),
-    }
+        error: null,
+        game: {
+            deck: newDraw.deck,
+            hand: hand.concat(newDraw.draw),
+        },
+    };
 }
 
 function test() {
@@ -33,10 +48,16 @@ function test() {
     var game = newGame();
 
     console.log('Your hand is:', game.hand);
-    console.log('Discarding', game.hand.slice(0,2));
-    game = discard(game.hand.slice(0,2), game.hand, game.deck);
+    // console.log('Discarding', game.hand.slice(0,2));
+    // game = discard(game.hand.slice(0,2), game.hand, game.deck);
+    console.log('Discarding', ['As']);
+    game = discard(['As'], game.hand, game.deck);
 
-    console.log('Your hand is now:', game.hand);
+    if (game.error) {
+        return console.log(game.error.message);
+    }
+
+    console.log('Your hand is now:', game.game.hand);
 }
 
 module.exports = {
