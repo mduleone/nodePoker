@@ -2,7 +2,7 @@
 
 This file describes the Algorithms and defines the GameState Schema that the engine (dealer) will use to run the game.
 
-## Algorithm
+## Algorithms
 
 ### New Hand
 1. Set `GameState.playing`<sup>*</sup>
@@ -19,82 +19,85 @@ This file describes the Algorithms and defines the GameState Schema that the eng
 8. Deal Hands<sup>****</sup>
 
 #### <sup>\*</sup>Set `GameState.playing`
-```
-for (player in GameState.players() {
+``` javascript
+for (player in GameState.players) {
     if (GameState.players[player].inNextHand) {
-        GameState.playing.push(player.seat)
+        GameState.playing.push(player.seat);
     }
 }
 ```
 #### <sup>\*\*</sup>Set `GameState.dealer`
-```
+``` javascript
 // Assuming nothing fancy with the button
-dealer = false
+var dealer = false;
 for (seatTest = (Number(dealer) + 1) % 10;
      seatTest != Number(dealer) || !dealer;
      seatTest = (seatTest + 1) % 10) {
     if (GameState.playing.indexOf(seatTest.toString()) != -1) {
-        GameState.dealer = seatTest
-        dealer = true
+        GameState.dealer = seatTest;
+        dealer = true;
     }    
 }
 ```
 
 #### <sup>\*\*\*</sup>Get small & big blinds
-```
+``` javascript
 // Assuming nothing fancy with blinds
 var smallBlind = false;
 var bigBlind = false;
 var action = false;
+var stack;
+var seatTest;
+var paying;
 if (GameState.playing.length > 2) {
     // Find first three positions left of the dealer that has a player playing
     for (seatTest = (Number(dealer) + 1) % 10;
          seatTest != Number(dealer) || !(smallBlind && bigBlind && action);
          seatTest = (seatTest + 1) % 10) {
         if (GameState.playing.indexOf(seatTest.toString()) != -1) {
-            stack = GameState.players[seatTest].stack
+            stack = GameState.players[seatTest].stack;
             if (bigBlind) {
-                GameState.action = seatTest
-                action = true
+                GameState.action = seatTest;
+                action = true;
             } else if (smallBlind) {
-                paying = min(stack, GameState.blinds.big)
-                GameState.pot += paying
-                stack -= paying
-                GameState.currentBets[seatTest] = paying
-                GameState.lastRaiser = seatTest
-                bigBlind = true
+                paying = Math.min(stack, GameState.blinds.big);
+                GameState.pot += paying;
+                stack -= paying;
+                GameState.currentBets[seatTest] = paying;
+                GameState.lastRaiser = seatTest;
+                bigBlind = true;
             } else {
-                paying = min(stack, GameState.blinds.small)
-                stack -= paying
-                GameState.pot += paying
-                GameState.currentBets[seatTest] = paying
-                smallBlind = true
+                paying = Math.min(stack, GameState.blinds.small);
+                stack -= paying;
+                GameState.pot += paying;
+                GameState.currentBets[seatTest] = paying;
+                smallBlind = true;
             }
-            GameState.players[seatTest].stack = stack
+            GameState.players[seatTest].stack = stack;
         }
     }
 } else {
     // Dealer is always small blind
-    stack = GameState.players[dealer].stack
-    paying = min(stack, GameState.blinds.small)
-    GameState.currentBets[dealer] = paying
-    GameState.pot += paying
-    GameState.players[dealer].stack -= paying
-    GameState.action = dealer
-    smallBlind = true
+    stack = GameState.players[GameState.dealer].stack;
+    paying = Math.min(stack, GameState.blinds.small);
+    GameState.currentBets[GameState.dealer] = paying;
+    GameState.pot += paying;
+    GameState.players[GameState.dealer].stack -= paying;
+    GameState.action = GameState.dealer;
+    smallBlind = true;
 
     // Find next dude
     for (seatTest = (Number(dealer) + 1) % 10;
          seatTest != Number(dealer) || !bigBlind;
          seatTest = (seatTest + 1) % 10) {
         if (GameState.playing.indexOf(seatTest.toString()) != -1) {
-            stack = GameState.players[seatTest].stack
-            paying = min(stack, GameState.blinds.big)
-            stack -= paying
-            GameState.currentBets[seatTest] = paying
-            GameState.lastRaiser = seatTest
-            bigBlind = true
-            GameState.players[seatTest].stack = stack
+            stack = GameState.players[seatTest].stack;
+            paying = Math.min(stack, GameState.blinds.big);
+            stack -= paying;
+            GameState.currentBets[seatTest] = paying;
+            GameState.lastRaiser = seatTest;
+            bigBlind = true;
+            GameState.players[seatTest].stack = stack;
         }
     }
 }
