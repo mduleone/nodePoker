@@ -4,19 +4,28 @@ This file describes the Algorithms and defines the GameState Schema that the eng
 
 ## Algorithms
 
-### New Hand
-1. Set `GameState.playing`<sup>*</sup>
+### Play
+1. Set `GameState.playing`<sup>\*</sup>
 2. Set `GameState.board = []`
 3. Set `GameState.deck = new shuffled deck`
-4. Set `GameState.dealer`<sup>**</sup>
-5. Get small & big blinds<sup>***</sup>
+4. Set `GameState.dealer`<sup>\*\*</sup>
+5. Get small & big blinds<sup>\*\*\*</sup>
     + Set `GameState.action`
     + Set `GameState.lastRaiser`
     + Set `GameState.currentBets`
     + Set `GameState.pot`
 6. Set `GameState.minBet = GameState.blinds.big`
 7. Set `GameState.minRaise = 2 * GameState.minBet`
-8. Deal Hands<sup>****</sup>
+8. Deal Hands<sup>\*\*\*\*</sup>
+9. Run round of betting<sup>\*\*\*\*\*</sup>
+10. if `GameState.playing.length <= 1` Go to `17` else Deal Flop
+11. Run round of betting
+12. if `GameState.playing.length <= 1` Go to `17` else Deal Turn
+13. Run round of betting
+14. if `GameState.playing.length <= 1` Go to `17` else Deal River
+15. Run round of betting
+16. if `GameState.playing.length <= 1` Go to `17` else Determine Winner
+17. Pay winner `GameState.pot` and Go to `1`.
 
 #### <sup>\*</sup>Set `GameState.playing`
 ``` javascript
@@ -30,8 +39,8 @@ for (player in GameState.players) {
 ``` javascript
 // Assuming nothing fancy with the button
 var dealer = false;
-for (seatTest = (Number(dealer) + 1) % 10;
-     seatTest != Number(dealer) || !dealer;
+for (seatTest = (Number(GameState.dealer) + 1) % 10;
+     seatTest != Number(GameState.dealer) || !dealer;
      seatTest = (seatTest + 1) % 10) {
     if (GameState.playing.indexOf(seatTest.toString()) != -1) {
         GameState.dealer = seatTest;
@@ -51,8 +60,8 @@ var seatTest;
 var paying;
 if (GameState.playing.length > 2) {
     // Find first three positions left of the dealer that has a player playing
-    for (seatTest = (Number(dealer) + 1) % 10;
-         seatTest != Number(dealer) || !(smallBlind && bigBlind && action);
+    for (seatTest = (Number(GameState.dealer) + 1) % 10;
+         seatTest != Number(GameState.dealer) || !(smallBlind && bigBlind && action);
          seatTest = (seatTest + 1) % 10) {
         if (GameState.playing.indexOf(seatTest.toString()) != -1) {
             stack = GameState.players[seatTest].stack;
@@ -86,9 +95,9 @@ if (GameState.playing.length > 2) {
     GameState.action = GameState.dealer;
     smallBlind = true;
 
-    // Find next dude
-    for (seatTest = (Number(dealer) + 1) % 10;
-         seatTest != Number(dealer) || !bigBlind;
+    // Find other player
+    for (seatTest = (Number(GameState.dealer) + 1) % 10;
+         seatTest != Number(GameState.dealer) || !bigBlind;
          seatTest = (seatTest + 1) % 10) {
         if (GameState.playing.indexOf(seatTest.toString()) != -1) {
             stack = GameState.players[seatTest].stack;
