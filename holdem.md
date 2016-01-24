@@ -126,7 +126,7 @@ Assign hands
         + `playerResponse` will be one of `[fold, check, bet, call, raise]`
     2. `handlePlayerResponse = handlePlayerAction(playerResponse, GameState)`
         + `if (check/bet/call/raise && GameState.gameData.lastRaiser == null)`
-            + `GameState.gameData.lastRaiser = GameState.gameData.actiion`
+            + `GameState.gameData.lastRaiser = GameState.gameData.action`
     3. `GameState = handlePlayerResponse`
 
 ##Schema
