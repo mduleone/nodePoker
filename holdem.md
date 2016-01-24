@@ -132,12 +132,12 @@ Assign hands
 ##Schema
 
 ### GameState
-```
+``` json
 {players, playing, board, deck, dealer, action, blinds, minBet, minRaise, lastRaiser, currentBets, pot,}
 ```
 
 Example
-```
+``` json
 {
     players: {
         '0': {
@@ -194,12 +194,12 @@ Example
 ```
 
 ### Player
-```
+``` json
 {id, name, seat, hand, stack, inNextHand, canBeDealer, bank,}
 ```
 
 Example
-```
+``` json
 {
     id: 0,
     name: 'RiverBitch'.
@@ -213,12 +213,12 @@ Example
 ```
 
 ### GameData
-```
+``` json
 {playing, board, dealer, action, blinds, minBet, minRaise, lastRaiser, currentBets, pot,}
 ```
 
 Example
-```
+``` json
 {
     playing: ['0', '5',],
     board: ['Ks', 'Js', 'Jc', '5d', 'Ts',],
