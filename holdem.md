@@ -10,10 +10,10 @@ This file describes the Algorithms and defines the GameState Schema that the eng
 3. Set GameState.deck = new shuffled deck
 4. Set GameState.dealer<sup>**</sup>
 5. Get small & big blinds<sup>***</sup>
-    Set GameState.action,
-        GameState.lastRaiser,
-        GameState.currentBets,
-        GameState.pot
+    + Set GameState.action
+    + Set GameState.lastRaiser
+    + Set GameState.currentBets
+    + Set GameState.pot
 6. Set GameState.minBet = GameState.blinds.big
 7. Set GameState.minRaise = 2 * GameState.minBet
 8. Deal Hands<sup>****</sup>
