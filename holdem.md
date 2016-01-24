@@ -5,20 +5,20 @@ This file describes the Algorithms and defines the GameState Schema that the eng
 ## Algorithm
 
 ### New Hand
-1. Set GameState.playing<sup>*</sup>
-2. Set GameState.board = []
-3. Set GameState.deck = new shuffled deck
-4. Set GameState.dealer<sup>**</sup>
+1. Set `GameState.playing`<sup>*</sup>
+2. Set `GameState.board = []`
+3. Set `GameState.deck = new shuffled deck`
+4. Set `GameState.dealer`<sup>**</sup>
 5. Get small & big blinds<sup>***</sup>
-    + Set GameState.action
-    + Set GameState.lastRaiser
-    + Set GameState.currentBets
-    + Set GameState.pot
-6. Set GameState.minBet = GameState.blinds.big
-7. Set GameState.minRaise = 2 * GameState.minBet
+    + Set `GameState.action`
+    + Set `GameState.lastRaiser`
+    + Set `GameState.currentBets`
+    + Set `GameState.pot`
+6. Set `GameState.minBet = GameState.blinds.big`
+7. Set `GameState.minRaise = 2 * GameState.minBet`
 8. Deal Hands<sup>****</sup>
 
-#### <sup>\*</sup>Set GameState.playing
+#### <sup>\*</sup>Set `GameState.playing`
 ```
 for (player in GameState.players() {
     if (GameState.players[player].inNextHand) {
@@ -26,7 +26,7 @@ for (player in GameState.players() {
     }
 }
 ```
-#### <sup>\*\*</sup>Set GameState.dealer
+#### <sup>\*\*</sup>Set `GameState.dealer`
 ```
 // Assuming nothing fancy with the button
 dealer = false
