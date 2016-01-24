@@ -123,7 +123,7 @@ Assign hands
 #### <sup>\*\*\*\*\*</sup> Round of betting
 * While `GameState.gameData.action != GameState.gameData.lastRaiser`
     1. `playerResponse = getPlayerAction(GameState.gameData, GameState.players[action])`
-        + `playerResponse` will be one of fold, check, bet, call, raise
+        + `playerResponse` will be one of `[fold, check, bet, call, raise]`
     2. `handlePlayerResponse = handlePlayerAction(playerResponse, GameState)`
         + if (bet/call/raise && GameState.gameData.lastRaiser == null) GameState.gameData.lastRaiser = GameState.gameData.actiion
     3. `GameState = handlePlayerResponse`
