@@ -5,22 +5,20 @@ This file describes the Algorithms and defines the GameState Schema that the eng
 ## Algorithm
 
 ### New Hand
-```
-3. Set GameState.playing\*
+1. Set GameState.playing<sup>*</sup>
 2. Set GameState.board = []
-1. Set GameState.deck = new shuffled deck
-4. Set GameState.dealer\*\*
-5. Get small & big blinds\*\*\*
+3. Set GameState.deck = new shuffled deck
+4. Set GameState.dealer<sup>**</sup>
+5. Get small & big blinds<sup>***</sup>
     Set GameState.action,
         GameState.lastRaiser,
         GameState.currentBets,
         GameState.pot
 6. Set GameState.minBet = GameState.blinds.big
 7. Set GameState.minRaise = 2 * GameState.minBet
-8. Deal Hands\*\*\*\*\*
-```
+8. Deal Hands<sup>****</sup>
 
-#### \* Set GameState.playing
+#### <sup>\*</sup>Set GameState.playing
 ```
 for (player in GameState.players() {
     if (GameState.players[player].inNextHand) {
@@ -28,7 +26,7 @@ for (player in GameState.players() {
     }
 }
 ```
-#### \*\* Set GameState.dealer
+#### <sup>\*\*</sup>Set GameState.dealer
 ```
 // Assuming nothing fancy with the button
 dealer = false
@@ -42,7 +40,7 @@ for (seatTest = (Number(dealer) + 1) % 10;
 }
 ```
 
-#### \*\*\* Get small & big blinds
+#### <sup>\*\*\*</sup>Get small & big blinds
 ```
 // Assuming nothing fancy with blinds
 var smallBlind = false;
@@ -102,7 +100,7 @@ if (GameState.playing.length > 2) {
 }
 ```
 
-#### \*\*\*\*\* Deal Hands
+#### <sup>\*\*\*\*</sup>Deal Hands
 ```
 Assign hands
     Construct a currentPlayers object
