@@ -120,7 +120,7 @@ Assign hands
     Replace GameState.deck with deck from result
 ```
 
-#### <sup>\*\*\*\*\*</sup> Round of betting
+#### <sup>\*\*\*\*\*</sup>Round of betting
 * While `GameState.gameData.action != GameState.gameData.lastRaiser`
     1. `playerResponse = getPlayerAction(GameState.gameData, GameState.players[action])`
         + `playerResponse` will be one of `[fold, check, bet, call, raise]`
