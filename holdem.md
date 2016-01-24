@@ -133,7 +133,7 @@ Assign hands
 
 ### GameState
 ``` json
-{players, playing, board, deck, dealer, action, blinds, minBet, minRaise, lastRaiser, currentBets, pot,}
+{players, deck, gameData: {playing, board, dealer, action, blinds, minBet, minRaise, lastRaiser, currentBets, pot,},}
 ```
 
 Example
