@@ -32,6 +32,80 @@ function existInHand(card, hand) {
     return false;
 }
 
+function convertCardToEmoji(card) {
+    var rank = card.slice(0, 1);
+    var suit = card.slice(1, 2);
+
+    if (rank === 'T') {
+        rank = '10';
+    }
+
+    if (suit === 's') {
+        suit = '♠️'
+    } else if (suit === 'd') {
+        suit = '♦️'
+    } else if (suit === 'c') {
+        suit = '♣️'
+    } else if (suit === 'h') {
+        suit = '♥️'
+    }
+
+    return rank + suit;
+}
+
+function convertHandToEmoji(cards) {
+    var hand = '';
+
+    for (var card in cards) {
+        hand += convertCardToEmoji(cards[card]);
+    }
+
+    return hand;
+}
+
+function convertCardToSpeech(card) {
+    var rank = card.slice(0, 1);
+    var suit = card.slice(1, 2);
+
+    if (rank === 'A') {
+        rank = 'Ace';
+    }
+    if (rank === 'K') {
+        rank = 'King';
+    }
+    if (rank === 'Q') {
+        rank = 'Queen';
+    }
+    if (rank === 'J') {
+        rank = 'Jack';
+    }
+    if (rank === 'T') {
+        rank = '10';
+    }
+
+    if (suit === 's') {
+        suit = 'spades'
+    } else if (suit === 'd') {
+        suit = 'diamonds'
+    } else if (suit === 'c') {
+        suit = 'clubs'
+    } else if (suit === 'h') {
+        suit = 'hearts'
+    }
+
+    return rank + ' of ' + suit;
+}
+
+function convertHandToSpeech(cards) {
+    var hand = '';
+
+    for (var card in cards) {
+        hand += convertCardToSpeech(cards[card]) + ' ';
+    }
+
+    return hand.trim();
+}
+
 module.exports = {
     newDeck: newDeck,
     drawCards: drawCards,
