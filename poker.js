@@ -52,25 +52,13 @@ function determineLowEightOmahaHand (board, pockets) {
     var hand = null;
     while (hand = cmbBoards.next()) {
         hand.sort(function (a, b) {
-            if (a.low < b.low) {
-                return -1;
-            } else if (a.low > b.low) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return a.low - b.low;
         });
         possibleBoards.push(hand);
     }
     while (hand = cmbPockets.next()) {
         hand.sort(function (a, b) {
-            if (a.low < b.low) {
-                return -1;
-            } else if (a.low > b.low) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return a.low - b.low;
         });
         possiblePockets.push(hand);
     }
@@ -80,13 +68,7 @@ function determineLowEightOmahaHand (board, pockets) {
         for (var j = 0; j < possibleBoards.length; j++) {
             hand = possiblePockets[i].concat(possibleBoards[j]);
             hand.sort(function (a, b) {
-                if (a.low < b.low) {
-                    return -1;
-                } else if (a.low > b.low) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                return a.low - b.low;
             });
             possibleHands.push(hand);
         }
@@ -107,13 +89,7 @@ function determineLowEightHand (cards) {
     var hand = null;
     while (hand = cmb.next()) {
         hand.sort(function (a, b) {
-            if (a.low < b.low) {
-                return -1;
-            } else if (a.low > b.low) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return a.low - b.low;
         });
         possibleHands.push(hand);
     }
@@ -132,13 +108,7 @@ function determineLowRazzHand (cards) {
     var hand = null;
     while (hand = cmb.next()) {
         hand.sort(function (a, b) {
-            if (a.low < b.low) {
-                return -1;
-            } else if (a.low > b.low) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return a.low - b.low;
         });
         possibleHands.push(hand);
     }
@@ -158,13 +128,7 @@ function determineHighHand (cards) {
     
     while (hand = cmb.next()) {
         hand.sort(function (a, b) {
-            if (a.high < b.high) {
-                return -1;
-            } else if (a.high > b.high) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return a.high - b.high;
         });
         possibleHands.push(hand);
     }
@@ -851,13 +815,7 @@ function convertCards (cardsStr) {
         cards[i] = convertCard(card);
     }
     cards.sort(function (a, b) {
-        if (a.high < b.high) {
-            return -1;
-        } else if (a.high > b.high) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return a.high - b.high;
     });
     return cards;
 }
