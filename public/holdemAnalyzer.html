@@ -24,105 +24,107 @@
                 <ul class="hand winner">
                 </ul>
             </div>
-            <div class="board">
-                Board
-                <ul class="hand board" >
-                    <li class="empty card back"></li>
-                </ul>
+            <div id="#game">
+                <div class="board">
+                    Board
+                    <ul class="hand board" >
+                        <li class="empty card back"></li>
+                    </ul>
+                </div>
+                <div class="hands">
+                    <table>
+                        <tr class="title">
+                            <td>
+                                Hand 1
+                            </td>
+                            <td>
+                                Hand 2
+                            </td>
+                            <td>
+                                Hand 3
+                            </td>
+                            <td>
+                                Hand 4
+                            </td>
+                            <td>
+                                Hand 5
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul class="hand hand1" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand2" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand3" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand4" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand5" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="title">
+                            <td>
+                                Hand 6
+                            </td>
+                            <td>
+                                Hand 7
+                            </td>
+                            <td>
+                                Hand 8
+                            </td>
+                            <td>
+                                Hand 9
+                            </td>
+                            <td>
+                                Hand 10
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <ul class="hand hand6" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand7" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand8" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand9" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="hand hand10" >
+                                    <li class="empty card back"></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="btn btn-primary" onclick="getHoldemWinner()">Determine Winner</div>
             </div>
-            <div class="hands">
-                <table>
-                    <tr class="title">
-                        <td>
-                            Hand 1
-                        </td>
-                        <td>
-                            Hand 2
-                        </td>
-                        <td>
-                            Hand 3
-                        </td>
-                        <td>
-                            Hand 4
-                        </td>
-                        <td>
-                            Hand 5
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <ul class="hand hand1" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand2" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand3" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand4" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand5" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr class="title">
-                        <td>
-                            Hand 6
-                        </td>
-                        <td>
-                            Hand 7
-                        </td>
-                        <td>
-                            Hand 8
-                        </td>
-                        <td>
-                            Hand 9
-                        </td>
-                        <td>
-                            Hand 10
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <ul class="hand hand6" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand7" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand8" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand9" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul class="hand hand10" >
-                                <li class="empty card back"></li>
-                            </ul>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="btn btn-primary" onclick="getHoldemWinner()">Determine Winner</div>
         </div>
     </div>
     <script 
