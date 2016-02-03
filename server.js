@@ -29,7 +29,7 @@ var app = express();
 //     next();
 // });
 
-app.use('/holdemAnalyzer', express.static('public'));
+app.use('/', express.static('public'));
 
 app.get("/holdemAnalyzer", cors(), function (req, res) {
     res.sendFile(path.join(__dirname, 'public/holdemAnalyzer.html'));
