@@ -1,0 +1,60 @@
+body, html {
+    padding: 0;
+    margin: 0;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+#content {
+    padding: 1em;
+}
+
+#clearScreen {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    z-index: 50;
+    position: fixed;
+    background: none;
+}
+
+#holdem .hands .hand {
+    display: inline-block;
+}
+
+table {
+    margin-bottom: 1em;
+}
+
+td {
+    width: 6em;
+    display: table-cell;
+}
+
+tr.title td{
+    padding-top: .75em;
+    padding-bottom: .25em;
+}
+
+.card {
+    z-index: 50;
+}
+
+#cardSelector {
+    display: none;
+    position: absolute;
+    width: 22.5em;
+    padding-bottom: 2em;
+    background-color: #ceceee;
+    border: 1px solid;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+#cardSelector .hand {
+    position: relative;
+    left: 1em;
+}

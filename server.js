@@ -4,6 +4,7 @@ var express = require("express");
 var cors = require("cors");
 var poker = require("./poker");
 var holdem = require("./holdem");
+var path = require('path');
 var port = 8000;
 
 var HANDS = [
@@ -27,6 +28,12 @@ var app = express();
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //     next();
 // });
+
+app.use(express.static('public'));
+
+app.get("/holdemAnalyzer", cors(), function (req, res) {
+    res.sendFile(path.join(__dirname, 'public/holdemAnalyzer.html'));
+});
 
 app.get("/poker", cors(), function (req, res) {
     if (req.query.hand1 && req.query.hand2) {
