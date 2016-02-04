@@ -41,12 +41,10 @@ var globalTarget;
 
 function setGlobalTarget() {
     $('#holdem .hand').on('click', function(e) {
-        // console.log(e.delegateTarget);
         globalTarget = $(e.delegateTarget);
         $($(e.delegateTarget).closest('[id]'))
-        // console.log(e);
         $('#cardSelector').css({
-            'left': $(globalTarget.parent()).hasClass('board')?'9em':e.pageX + 20 + 'px',
+            'left': $(globalTarget.parent()).hasClass('table')?'9em':e.pageX + 20 + 'px',
             'top': e.pageY - 120 + 'px'
         });
         $('#clearScreen').show();
@@ -143,10 +141,10 @@ function clickCard(e) {
     if ($(globalTarget.children()[0]).hasClass('empty')){
         globalTarget.children().remove();
     }
-    globalTarget.append(target);
     target.on('click', deleteCard);
+    globalTarget.append(target);
 
-    if ($(globalTarget.parent()).hasClass('board')) {
+    if ($(globalTarget.parent()).hasClass('table')) {
         if (globalTarget.children().length >= 5) {
             hideStuff();
         }
@@ -156,11 +154,14 @@ function clickCard(e) {
         }
     }
 
-
     var cardVal = getCard($(e.delegateTarget)[0]);
 
-    $(e.delegateTarget).remove();
-    // console.log(cardVal);
+    var classList = e.delegateTarget.classList;
+    var classes = "#cardSelector ";
+    for (var i = 0; i < classList.length; i++) {
+        classes += '.' + classList[i];
+    }
+    $(classes).remove();
 }
 
 function deleteCard(e) {
@@ -213,7 +214,9 @@ function getHoldemWinner() {
 
         return result.concat(cards);
     }, []);
-    board.shift();
+    if (flatCards.indexOf(board[0]) === -1) {
+        board.shift();
+    }
 
     var hand1 = _.reduce($('#holdem .hand1'), function(result, value, key) {
         var cards = _.map($(value).children(), function(ele) {
@@ -315,9 +318,12 @@ function getHoldemWinner() {
         url += '&hand8=' + hand8.join('');
         url += '&hand9=' + hand9.join('');
         url += '&hand10=' + hand10.join('');
+
     $.get(url, function(data) {
         var parent = $('#holdem .winner').parent()
-        $('#holdem .winner').remove();
+        if (data.winningHand) {
+            $('#holdem .winner').remove();
+        }
         parent.append($('#holdem .' + data.winningHand).clone().removeClass(data.winningHand).addClass('winner'));
     });
 }
