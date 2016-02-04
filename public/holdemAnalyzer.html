@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Poker Hand Analzer</title>
+    <title>Poker Hand Analyzer</title>
     <link rel="stylesheet" type="text/css" href="static/css/cards/cards.css" media="screen" />
     <!--[if lt IE 9]>
         <link rel="stylesheet" type="text/css" href="cards/cards-ie.css" media="screen" />
@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <div id="game">
-                <div class="board">
+                <div class="table">
                     Board
                     <ul class="hand board" >
                         <li class="empty card back"></li>
@@ -52,27 +52,27 @@
                         </tr>
                         <tr>
                             <td>
-                                <ul class="hand hand1" >
+                                <ul class="hand hand1">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand2" >
+                                <ul class="hand hand2">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand3" >
+                                <ul class="hand hand3">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand4" >
+                                <ul class="hand hand4">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand5" >
+                                <ul class="hand hand5">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
@@ -96,27 +96,27 @@
                         </tr>
                         <tr>
                             <td>
-                                <ul class="hand hand6" >
+                                <ul class="hand hand6">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand7" >
+                                <ul class="hand hand7">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand8" >
+                                <ul class="hand hand8">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand9" >
+                                <ul class="hand hand9">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
                             <td>
-                                <ul class="hand hand10" >
+                                <ul class="hand hand10">
                                     <li class="empty card back"></li>
                                 </ul>
                             </td>
@@ -124,6 +124,8 @@
                     </table>
                 </div>
                 <div class="btn btn-primary" onclick="getHoldemWinner()">Determine Winner</div>
+                <div class="btn btn-success" onclick="randomDeal()">Random Deal</div>
+                <div class="btn btn-danger" onclick="clearTable()">Clear Table</div>
             </div>
         </div>
     </div>
@@ -132,6 +134,9 @@
         type="text/javascript"></script>
     <script 
         src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.1.0/lodash.min.js"
+        type="text/javascript"></script>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.19.1/ramda.min.js"
         type="text/javascript"></script>
     <script 
         src="static/holdemAnalyzer.js"

@@ -1,11 +1,43 @@
+
+function randInt(min, max) {
+    if (typeof max === 'undefined') {
+        var max = min--;
+        min = 0;
+    }
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+var shuffle = function (array) {
+    for (var i = 0; i < array.length; i++) {
+        var j = randInt(i);
+        var hold = array[i];
+        if (j != i) {
+            array[i] = array[j];
+        }
+        array[j] = hold;
+    }
+    return array;
+}
+
+var flatCards = [
+    'As', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', 'Ts', 'Js', 'Qs', 'Ks',
+    'Ad', '2d', '3d', '4d', '5d', '6d', '7d', '8d', '9d', 'Td', 'Jd', 'Qd', 'Kd',
+    'Ac', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc', 'Kc',
+    'Ah', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', 'Th', 'Jh', 'Qh', 'Kh',
+];
+
+function newDeck() {
+    return shuffle(flatCards.slice());
+}
+
 var deck = [
     ['As', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', 'Ts', 'Js', 'Qs', 'Ks',],
     ['Ad', '2d', '3d', '4d', '5d', '6d', '7d', '8d', '9d', 'Td', 'Jd', 'Qd', 'Kd',],
     ['Ac', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc', 'Kc',],
-    ['Ah', '2h', '3h', '4h', '5h', '6h', '7h'   , '8h', '9h', 'Th', 'Jh', 'Qh', 'Kh',],
+    ['Ah', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', 'Th', 'Jh', 'Qh', 'Kh',],
 ];
 
-var globalTarget = $('#holdem .hand1');
+var globalTarget;
 
 function setGlobalTarget() {
     $('#holdem .hand').on('click', function(e) {
@@ -39,19 +71,7 @@ function buildSelector(exclude) {
         
         for (var j = 0; j < deck[i].length; j++) {
             if (exclude.indexOf(deck[i][j]) === -1) {
-                var classes = deck[i][j].split('');
-                var classes = _.map(classes, rankToRank);
-                var classes = _.map(classes, suitToSuit);
-                var card = $(document.createElement('li')).addClass('card ' + classes.join(' '));
-
-                var rank = $(document.createElement('span'));
-                var rankConversion = rankToRank(classes[0]);
-                rank.addClass('rank').text(rankConversion === 'T' ? '10' : rankConversion);
-                var suit = $(document.createElement('span'));
-
-                suit.addClass('suit').html('&' + classes[1] + ';');
-                card.append(rank);
-                card.append(suit);
+                var card = createCardFromText(deck[i][j]);
                 hand.append(card);
             }
         }
@@ -59,6 +79,62 @@ function buildSelector(exclude) {
     }
 
     $('#cardSelector li').on('click', clickCard);
+}
+
+function createCardFromText(cardText) {
+    var classes = cardText.split('');
+    var classes = _.map(classes, rankToRank);
+    var classes = _.map(classes, suitToSuit);
+    var card = $(document.createElement('li')).addClass('card ' + classes.join(' '));
+
+    var rank = $(document.createElement('span'));
+    var rankConversion = rankToRank(classes[0]);
+    rank.addClass('rank').text(rankConversion === 'T' ? '10' : rankConversion);
+    var suit = $(document.createElement('span'));
+
+    suit.addClass('suit').html('&' + classes[1] + ';');
+    card.append(rank);
+    card.append(suit);
+    card.on('click', deleteCard);
+
+    return card;
+}
+
+function clearTable() {
+    hideStuff();
+    $('.hand').each(function (index) {
+        $(this).children().remove();
+        $(this).append($(document.createElement('li')).addClass('empty back card'));
+        setGlobalTarget();
+    });
+    $('.winner').children().remove();
+    buildSelector();
+}
+
+function randomDeal() {
+    var _deck = newDeck();
+    var players = randInt(2, 10);
+    clearTable();
+    $('.board').children().remove();
+
+    for (var i = 0; i < players; i++) {
+        $('.hand' + (i + 1)).children().remove();
+    }
+    for (i = 0; i < players; i++) {
+        for (var j = 0; j < 2; j++) {
+            $('.hand' + (i + 1)).append(createCardFromText(_deck.shift()));
+        }
+    }
+    _deck.shift();
+    for (i = 0; i < 3; i++) {
+        $('.board').append(createCardFromText(_deck.shift()));
+    }
+    for (i = 0; i < 2; i++) {
+        _deck.shift();
+        $('.board').append(createCardFromText(_deck.shift()));
+    }
+    getHoldemWinner();
+    setGlobalTarget();
 }
 
 function clickCard(e) {
@@ -91,8 +167,7 @@ function deleteCard(e) {
     var parent = $($(e.delegateTarget).parent());
     $(e.delegateTarget).remove();
 
-    var id = globalTarget.closest('[id]')[0].id;
-    var exclude = _.reduce($('#' + id + ' .hand'), function(result, value, key) {
+    var exclude = _.reduce($('#holdem .hand'), function(result, value, key) {
         var cards = _.map($(value).children(), function(ele) {
             return getCard(ele);
         });
@@ -241,8 +316,9 @@ function getHoldemWinner() {
         url += '&hand9=' + hand9.join('');
         url += '&hand10=' + hand10.join('');
     $.get(url, function(data) {
-        $('#holdem .winner').children().remove();
-        $('#holdem .winner').append($('#holdem .' + data.winningHand).clone().removeClass(data.winningHand));
+        var parent = $('#holdem .winner').parent()
+        $('#holdem .winner').remove();
+        parent.append($('#holdem .' + data.winningHand).clone().removeClass(data.winningHand).addClass('winner'));
     });
 }
 
