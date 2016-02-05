@@ -42,6 +42,11 @@ var globalTarget;
 function setGlobalTarget() {
     $('#holdem .hand').on('click', function(e) {
         globalTarget = $(e.delegateTarget);
+        if ($(globalTarget.parent()).hasClass('table')) {
+            if (globalTarget.children().length >= 5) {
+                return;
+            }
+        }
         $($(e.delegateTarget).closest('[id]'))
         $('#cardSelector').css({
             'left': $(globalTarget.parent()).hasClass('table')?'9em':e.pageX + 20 + 'px',
@@ -132,6 +137,14 @@ function randomDeal() {
         $('.board').append(createCardFromText(_deck.shift()));
     }
     getHoldemWinner();
+    var exclude = _.reduce($('#holdem .hand'), function(result, value, key) {
+        var cards = _.map($(value).children(), function(ele) {
+            return getCard(ele);
+        });
+
+        return result.concat(cards);
+    }, []);
+    buildSelector(exclude);
     setGlobalTarget();
 }
 
