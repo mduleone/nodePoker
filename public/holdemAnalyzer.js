@@ -148,6 +148,12 @@ function randomDeal() {
     setGlobalTarget();
 }
 
+function toggleFourColors() {
+    $('.playingCards').each(function (ele) {
+        $(this).toggleClass('fourColours');
+    })
+}
+
 function clickCard(e) {
     var target = $(e.delegateTarget).clone();
 
