@@ -93,9 +93,10 @@ function createCardFromText(cardText) {
     var rank = $(document.createElement('span'));
     var rankConversion = rankToRank(classes[0]);
     rank.addClass('rank').text(rankConversion === 'T' ? '10' : rankConversion);
-    var suit = $(document.createElement('span'));
 
+    var suit = $(document.createElement('span'));
     suit.addClass('suit').html('&' + classes[1] + ';');
+
     card.append(rank);
     card.append(suit);
     card.on('click', deleteCard);
