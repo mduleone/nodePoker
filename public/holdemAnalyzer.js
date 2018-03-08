@@ -93,9 +93,10 @@ function createCardFromText(cardText) {
     var rank = $(document.createElement('span'));
     var rankConversion = rankToRank(classes[0]);
     rank.addClass('rank').text(rankConversion === 'T' ? '10' : rankConversion);
-    var suit = $(document.createElement('span'));
 
+    var suit = $(document.createElement('span'));
     suit.addClass('suit').html('&' + classes[1] + ';');
+
     card.append(rank);
     card.append(suit);
     card.on('click', deleteCard);
@@ -137,13 +138,7 @@ function randomDeal() {
         $('.board').append(createCardFromText(_deck.shift()));
     }
     getHoldemWinner();
-    var exclude = _.reduce($('#holdem .hand'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
+    var exclude = getCardsText('#holdem .hand');
     buildSelector(exclude);
     setGlobalTarget();
 }
@@ -187,14 +182,7 @@ function deleteCard(e) {
     var parent = $($(e.delegateTarget).parent());
     $(e.delegateTarget).remove();
 
-    var exclude = _.reduce($('#holdem .hand'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
+    var exclude = getCardsText('#holdem .hand');
     exclude = _.filter(exclude, function(ele) {
         return ele !== '';
     });
@@ -225,110 +213,46 @@ function getCard(card) {
     return card;
 }
 
-function getHoldemWinner() {
-    var board = _.reduce($('#holdem .board'), function(result, value, key) {
+function getCardsText(selector) {
+    return _.reduce($(selector), function(result, value, key) {
         var cards = _.map($(value).children(), function(ele) {
             return getCard(ele);
         });
 
         return result.concat(cards);
     }, []);
+}
+
+function getHoldemWinner() {
+    var board = getCardsText('#holdem .board');
     if (flatCards.indexOf(board[0]) === -1) {
         board.shift();
     }
 
-    var hand1 = _.reduce($('#holdem .hand1'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand2 = _.reduce($('#holdem .hand2'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand3 = _.reduce($('#holdem .hand3'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand4 = _.reduce($('#holdem .hand4'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand5 = _.reduce($('#holdem .hand5'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand6 = _.reduce($('#holdem .hand6'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand7 = _.reduce($('#holdem .hand7'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand8 = _.reduce($('#holdem .hand8'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand9 = _.reduce($('#holdem .hand9'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
-    var hand10 = _.reduce($('#holdem .hand10'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
+    var hand1 = getCardsText('#holdem .hand1');
+    var hand2 = getCardsText('#holdem .hand2');
+    var hand3 = getCardsText('#holdem .hand3');
+    var hand4 = getCardsText('#holdem .hand4');
+    var hand5 = getCardsText('#holdem .hand5');
+    var hand6 = getCardsText('#holdem .hand6');
+    var hand7 = getCardsText('#holdem .hand7');
+    var hand8 = getCardsText('#holdem .hand8');
+    var hand9 = getCardsText('#holdem .hand9');
+    var hand10 = getCardsText('#holdem .hand10');
 
     var url = '';
-        url += '//dule.one/holdem?board=' + board.join('');
-        url += '&hand1=' + hand1.join('');
-        url += '&hand2=' + hand2.join('');
-        url += '&hand3=' + hand3.join('');
-        url += '&hand4=' + hand4.join('');
-        url += '&hand5=' + hand5.join('');
-        url += '&hand6=' + hand6.join('');
-        url += '&hand7=' + hand7.join('');
-        url += '&hand8=' + hand8.join('');
-        url += '&hand9=' + hand9.join('');
-        url += '&hand10=' + hand10.join('');
+
+    url += '//dule.one/holdem?board=' + board.join('');
+    url += '&hand1=' + hand1.join('');
+    url += '&hand2=' + hand2.join('');
+    url += '&hand3=' + hand3.join('');
+    url += '&hand4=' + hand4.join('');
+    url += '&hand5=' + hand5.join('');
+    url += '&hand6=' + hand6.join('');
+    url += '&hand7=' + hand7.join('');
+    url += '&hand8=' + hand8.join('');
+    url += '&hand9=' + hand9.join('');
+    url += '&hand10=' + hand10.join('');
 
     $.get(url, function(data) {
         var parent = $('#holdem .winner').parent()
