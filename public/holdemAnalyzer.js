@@ -253,14 +253,6 @@ function getHoldemWinner() {
         return result.concat(cards);
     }, []);
 
-    var hand2 = _.reduce($('#holdem .hand2'), function(result, value, key) {
-        var cards = _.map($(value).children(), function(ele) {
-            return getCard(ele);
-        });
-
-        return result.concat(cards);
-    }, []);
-
     var hand3 = _.reduce($('#holdem .hand3'), function(result, value, key) {
         var cards = _.map($(value).children(), function(ele) {
             return getCard(ele);
@@ -326,7 +318,7 @@ function getHoldemWinner() {
     }, []);
 
     var url = '';
-        url += 'http://dule.one/holdem?board=' + board.join('');
+        url += '//dule.one/holdem?board=' + board.join('');
         url += '&hand1=' + hand1.join('');
         url += '&hand2=' + hand2.join('');
         url += '&hand3=' + hand3.join('');
