@@ -103,11 +103,6 @@ function dealStreet(board, deck) {
     } else if (board.length == 3 || board.length == 4) {
         deck.shift();
         board.push(deck.shift());
-    } else {
-        return {
-            board: board,
-            deck: deck
-        };
     }
 
     return {

@@ -1,7 +1,7 @@
 "use strict";
 
-var shuffle = require('./shuffle');
-var cards = [
+const shuffle = require('./shuffle');
+const cards = [
     'As', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', 'Ts', 'Js', 'Qs', 'Ks',
     'Ad', '2d', '3d', '4d', '5d', '6d', '7d', '8d', '9d', 'Td', 'Jd', 'Qd', 'Kd',
     'Ac', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', 'Tc', 'Jc', 'Qc', 'Kc',
@@ -9,19 +9,19 @@ var cards = [
 ];
 
 function newDeck() {
-    return shuffle(cards);
+    return shuffle(cards.slice());
 }
 
 function drawCards(numCards, deck) {
-    var draw = [];
-    for (var i = 0; i < numCards; i++) {
+    const draw = [];
+    for (let i = 0; i < numCards; i++) {
         draw.push(deck.shift());
     }
 
     return {
         deck: deck,
         draw: draw,
-    }
+    };
 }
 
 function existInHand(card, hand) {
@@ -33,39 +33,33 @@ function existInHand(card, hand) {
 }
 
 function convertCardToEmoji(card) {
-    var rank = card.slice(0, 1);
-    var suit = card.slice(1, 2);
+    let rank = card.slice(0, 1);
+    let suit = card.slice(1, 2);
 
     if (rank === 'T') {
         rank = '10';
     }
 
     if (suit === 's') {
-        suit = '♠️'
+        suit = '♠️';
     } else if (suit === 'd') {
-        suit = '♦️'
+        suit = '♦️';
     } else if (suit === 'c') {
-        suit = '♣️'
+        suit = '♣️';
     } else if (suit === 'h') {
-        suit = '♥️'
+        suit = '♥️';
     }
 
-    return rank + suit;
+    return `${rank}${suit}`;
 }
 
-function convertHandToEmoji(cards) {
-    var hand = '';
-
-    for (var card in cards) {
-        hand += convertCardToEmoji(cards[card]);
-    }
-
-    return hand;
+function convertHandToEmoji(hand) {
+    return hand.map(convertCardToEmoji).join('');
 }
 
 function convertCardToSpeech(card) {
-    var rank = card.slice(0, 1);
-    var suit = card.slice(1, 2);
+    let rank = card.slice(0, 1);
+    let suit = card.slice(1, 2);
 
     if (rank === 'A') {
         rank = 'Ace';
@@ -93,21 +87,19 @@ function convertCardToSpeech(card) {
         suit = 'hearts'
     }
 
-    return rank + ' of ' + suit;
+    return `${rank} of ${suit}`;
 }
 
-function convertHandToSpeech(cards) {
-    var hand = '';
-
-    for (var card in cards) {
-        hand += convertCardToSpeech(cards[card]) + ' ';
-    }
-
-    return hand.trim();
+function convertHandToSpeech(hand) {
+    return hand.map(convertCardtoSpeech).join(', ');
 }
 
 module.exports = {
     newDeck: newDeck,
     drawCards: drawCards,
     existInHand: existInHand,
-}
+    convertCardToEmoji: convertCardToEmoji,
+    convertHandToEmoji: convertHandToEmoji,
+    convertCardToSpeech: convertCardToSpeech,
+    convertHandToSpeech: convertHandToSpeech,
+};
